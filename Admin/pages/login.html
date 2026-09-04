@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tres Marias Admin - Login</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+  <div class="login-container">
+    <!-- Logo above Login Box -->
+    <a href="logo.html" class="login-logo" title="Tres Marias Catering Services - Back to Logo">
+      <img src="../assets/images/logo.jpg" alt="Tres Marias Catering Services Logo" class="login-logo-img">
+    </a>
+
+    <!-- Login Box with Front-end Validation -->
+    <form class="login-box" id="login-form" novalidate>
+      
+      <!-- Top Alert Banner -->
+      <div id="login-alert" class="login-alert" role="alert">
+        <span id="alert-icon">⚠️</span>
+        <span id="alert-text"></span>
+      </div>
+
+      <!-- Username / Email Field -->
+      <div class="form-field">
+        <label class="field-label" for="username-input">Username or Email</label>
+        <input
+          type="text"
+          id="username-input"
+          class="field-input"
+          placeholder="admin@email.com"
+          autocomplete="off"
+          required
+        >
+        <span class="field-error-msg" id="username-error">Invalid username or email.</span>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-field">
+        <label class="field-label" for="password-input">Password</label>
+        <input
+          type="password"
+          id="password-input"
+          class="field-input"
+          placeholder="Password123"
+          autocomplete="off"
+          maxlength="20"
+          required
+        >
+        <span class="field-error-msg" id="password-error">Incorrect password.</span>
+      </div>
+
+      <!-- OTP & Send OTP Row -->
+      <div class="form-field">
+        <label class="field-label">One-Time PIN (OTP)</label>
+        <div class="otp-row">
+          <div class="otp-boxes">
+            <input type="text" maxlength="1" class="otp-digit" id="otp1" placeholder=" " aria-label="OTP Digit 1" autocomplete="off" inputmode="numeric" pattern="[0-9]">
+            <input type="text" maxlength="1" class="otp-digit" id="otp2" placeholder=" " aria-label="OTP Digit 2" autocomplete="off" inputmode="numeric" pattern="[0-9]">
+            <input type="text" maxlength="1" class="otp-digit" id="otp3" placeholder=" " aria-label="OTP Digit 3" autocomplete="off" inputmode="numeric" pattern="[0-9]">
+            <input type="text" maxlength="1" class="otp-digit" id="otp4" placeholder=" " aria-label="OTP Digit 4" autocomplete="off" inputmode="numeric" pattern="[0-9]">
+          </div>
+          <button type="button" class="btn-send-otp" id="btn-send-otp">Send OTP</button>
+        </div>
+        <span class="field-error-msg" id="otp-error">Invalid OTP code.</span>
+        <p class="otp-error-msg">Invalid input: Numbers only (0-9).</p>
+      </div>
+
+      <!-- Log In Button -->
+      <div class="login-btn-container">
+        <button type="submit" class="btn-login" id="btn-login">Log In</button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Front-end Script: Validation, Auto-focus, and Redirect to Dashboard -->
+  <script>
+    // HARDCODED CREDENTIALS
+    const HARDCODED_USERNAME = 'admin@email.com';
+    const HARDCODED_ALIAS = 'admin';
+    const HARDCODED_PASSWORD = 'Password123';
+    const HARDCODED_OTP = '1234';
+
+    const loginForm = document.getElementById('login-form');
+    const usernameInput = document.getElementById('username-input');
+    const passwordInput = document.getElementById('password-input');
+    const btnSendOtp = document.getElementById('btn-send-otp');
+    const alertBox = document.getElementById('login-alert');
+    const alertIcon = document.getElementById('alert-icon');
+    const alertText = document.getElementById('alert-text');
+    const usernameError = document.getElementById('username-error');
+    const passwordError = document.getElementById('password-error');
+    const otpError = document.getElementById('otp-error');
+
+    // 4 OTP Boxes
+    const otpBoxes = [
+      document.getElementById('otp1'),
+      document.getElementById('otp2'),
+      document.getElementById('otp3'),
+      document.getElementById('otp4')
+    ];
+
+    // Helper functions for alerts and errors
+    function showAlert(message, type = 'error') {
+      alertBox.className = `login-alert visible login-alert-${type}`;
+      alertIcon.textContent = type === 'error' ? '⚠️' : (type === 'success' ? '✅' : 'ℹ️');
+      alertText.textContent = message;
+    }
+
+    function clearAlert() {
+      alertBox.className = 'login-alert';
+      alertText.textContent = '';
+      usernameError.classList.remove('visible');
+      passwordError.classList.remove('visible');
+      otpError.classList.remove('visible');
+      usernameInput.classList.remove('has-error');
+      passwordInput.classList.remove('has-error');
+      otpBoxes.forEach(b => b.classList.remove('has-error'));
+    }
+
+    // Auto-advance through OTP input boxes
+    otpBoxes.forEach((box, index) => {
+      box.addEventListener('focus', () => {
+        box.select();
+        box.classList.remove('has-error');
+        otpError.classList.remove('visible');
+      });
+      box.addEventListener('click', () => box.select());
+
+      // 1. Move to next box when a digit is entered
+      box.addEventListener('input', () => {
+        box.classList.remove('has-error');
+        if (/^[0-9]$/.test(box.value) && index < otpBoxes.length - 1) {
+          otpBoxes[index + 1].focus();
+        }
+      });
+
+      // 2. Backspace navigation
+      box.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && box.value === '' && index > 0) {
+          otpBoxes[index - 1].focus();
+        }
+      });
+
+      // 3. Paste support for 4 digits
+      box.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text').trim();
+        if (/^[0-9]{4}$/.test(text)) {
+          otpBoxes.forEach((b, i) => { 
+            b.value = text[i]; 
+            b.classList.remove('has-error');
+          });
+          otpBoxes[3].focus();
+        }
+      });
+    });
+
+    // Clear error highlights on input
+    usernameInput.addEventListener('input', () => {
+      usernameInput.classList.remove('has-error');
+      usernameError.classList.remove('visible');
+    });
+
+    passwordInput.addEventListener('input', () => {
+      passwordInput.classList.remove('has-error');
+      passwordError.classList.remove('visible');
+    });
+
+    // Send OTP Simulation Button
+    btnSendOtp.addEventListener('click', () => {
+      clearAlert();
+      const enteredUsername = usernameInput.value.trim();
+      
+      if (!enteredUsername) {
+        usernameInput.classList.add('has-error');
+        usernameError.textContent = 'Please enter your username or email first.';
+        usernameError.classList.add('visible');
+        showAlert('Please enter your username or email before requesting an OTP.', 'error');
+        usernameInput.focus();
+        return;
+      }
+
+      // Simulated OTP dispatch
+      showAlert('OTP code sent successfully to your account.', 'info');
+      otpBoxes[0].focus();
+    });
+
+    // Form Submission & Validation Handler
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearAlert();
+
+      const userVal = usernameInput.value.trim();
+      const passVal = passwordInput.value;
+      const otpVal = otpBoxes.map(b => b.value).join('');
+
+      let hasError = false;
+
+      // 1. Validate Username / Email
+      if (!userVal) {
+        usernameInput.classList.add('has-error');
+        usernameError.textContent = 'Username or email is required.';
+        usernameError.classList.add('visible');
+        hasError = true;
+      } else if (userVal.toLowerCase() !== HARDCODED_USERNAME.toLowerCase() && userVal.toLowerCase() !== HARDCODED_ALIAS.toLowerCase()) {
+        usernameInput.classList.add('has-error');
+        usernameError.textContent = 'Invalid username or email.';
+        usernameError.classList.add('visible');
+        hasError = true;
+      }
+
+      // 2. Validate Password
+      if (!passVal) {
+        passwordInput.classList.add('has-error');
+        passwordError.textContent = 'Password is required.';
+        passwordError.classList.add('visible');
+        hasError = true;
+      } else if (passVal !== HARDCODED_PASSWORD) {
+        passwordInput.classList.add('has-error');
+        passwordError.textContent = 'Incorrect password.';
+        passwordError.classList.add('visible');
+        hasError = true;
+      }
+
+      // 3. Validate OTP
+      if (otpVal.length < 4) {
+        otpBoxes.forEach(b => { if (!b.value) b.classList.add('has-error'); });
+        otpError.textContent = 'Please enter the complete 4-digit OTP code.';
+        otpError.classList.add('visible');
+        hasError = true;
+      } else if (otpVal !== HARDCODED_OTP) {
+        otpBoxes.forEach(b => b.classList.add('has-error'));
+        otpError.textContent = 'Invalid OTP code.';
+        otpError.classList.add('visible');
+        hasError = true;
+      }
+
+      // If invalid: Halt and trigger shake effect
+      if (hasError) {
+        showAlert('Access denied. Please check the highlighted fields.', 'error');
+        loginForm.classList.remove('shake');
+        void loginForm.offsetWidth; // trigger reflow
+        loginForm.classList.add('shake');
+        return;
+      }
+
+      // If valid: Success animation and redirect to Dashboard
+      showAlert('Login successful! Redirecting to Dashboard...', 'success');
+      const submitBtn = document.getElementById('btn-login');
+      submitBtn.textContent = 'Redirecting...';
+      submitBtn.style.opacity = '0.75';
+      submitBtn.disabled = true;
+
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 650);
+    });
+  </script>
+
+</body>
+</html>
