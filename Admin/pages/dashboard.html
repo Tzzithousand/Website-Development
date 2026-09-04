@@ -46,26 +46,45 @@
     <!-- Topbar Right: Notification, Messages, Account Profile -->
     <div class="topbar-right">
       
-      <!-- Notification Icon -->
-      <button class="icon-btn" id="btn-notifications" title="Notifications" aria-label="Notifications">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-        </svg>
-        <span class="icon-badge">3</span>
-      </button>
+      <!-- Notification Dropdown Wrapper -->
+      <div class="notification-wrapper">
+        <button class="icon-btn" id="btn-notifications" title="Notifications" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="icon-badge" id="notification-badge" style="display: none;">0</span>
+        </button>
+
+        <!-- Notification Dropdown Popover -->
+        <div class="notification-dropdown" id="notification-dropdown" role="region" aria-label="Notifications Panel">
+          <div class="notification-dropdown-header">
+            <span class="notification-dropdown-title">Notifications</span>
+            <button type="button" class="btn-mark-all-read" id="btn-mark-all-read">Mark all as read</button>
+          </div>
+          <div class="notification-dropdown-body" id="notification-list-container">
+            <div class="notification-empty-state">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <p>No new notifications</p>
+              <span>Reservation alerts and system updates will appear here once online.</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Messages Icon -->
       <button class="icon-btn" id="btn-messages" title="Messages" aria-label="Messages">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
-        <span class="icon-badge">2</span>
       </button>
 
       <!-- Account Profile Dropdown -->
       <div class="profile-wrapper">
-        <button class="profile-btn" id="profile-menu-btn" title="Admin Profile" aria-haspopup="true">
+        <button class="profile-btn" id="profile-menu-btn" title="Admin Profile" aria-haspopup="menu" aria-expanded="false" aria-controls="profile-dropdown">
           <img src="../assets/images/logo.jpg" alt="Admin Profile Avatar" class="profile-avatar">
           <div class="profile-info">
             <span class="profile-name">Admin</span>
@@ -76,23 +95,23 @@
           </svg>
         </button>
 
-        <div class="profile-dropdown" id="profile-dropdown" role="menu">
-          <a href="#profile" class="dropdown-item">
+        <div class="profile-dropdown" id="profile-dropdown" role="menu" aria-labelledby="profile-menu-btn">
+          <a href="#profile" class="dropdown-item" role="menuitem">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
             <span>My Profile</span>
           </a>
-          <a href="#settings" class="dropdown-item">
+          <a href="#settings" class="dropdown-item" role="menuitem">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="3"></circle>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             </svg>
             <span>Settings</span>
           </a>
-          <div class="dropdown-divider"></div>
-          <a href="login.html" class="dropdown-item logout" title="Mag-log out at bumalik sa Login page">
+          <div class="dropdown-divider" role="separator"></div>
+          <a href="login.html" class="dropdown-item logout" role="menuitem" title="Log out and return to Login page">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
               <polyline points="16 17 21 12 16 7"></polyline>
@@ -146,7 +165,7 @@
 
           <!-- 2. Reservation -->
           <li>
-            <a href="#reservation" class="nav-item" title="Reservation">
+            <a href="reservation.html" class="nav-item" title="Reservation">
               <span class="nav-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
@@ -278,7 +297,7 @@
       <div class="dashboard-header-row">
         <div>
           <h1 class="page-title">Dashboard Overview</h1>
-          <p class="page-subtitle">Maligayang pagbabalik, Admin! Narito ang pinakabagong estado ng catering services.</p>
+          <p class="page-subtitle">Welcome back, Admin! Here is the latest overview of catering services.</p>
         </div>
         <div class="header-status-pill">
           <span class="status-dot"></span>
@@ -322,11 +341,11 @@
             <!-- Revenue Quick Stats Bar -->
             <div class="chart-summary-bar">
               <div>
-                <span style="font-size: 11.5px; color: #64748b; font-weight: 600; text-transform: uppercase;">Kabuuan ng Revenue</span>
-                <div class="chart-total-amount" id="chart-total-revenue">₱185,450.00</div>
+                <span style="font-size: 11.5px; color: #64748b; font-weight: 600; text-transform: uppercase;">Total Revenue</span>
+                <div class="chart-total-amount" id="chart-total-revenue">₱0.00</div>
               </div>
               <div class="chart-comparison" id="chart-comparison-rate">
-                ↑ +18.4% kumpara noong nakaraang buwan
+                0.0% vs last month
               </div>
             </div>
 
@@ -342,7 +361,7 @@
         <div class="stats-column">
           
           <!-- 1. Net Total Card -->
-          <div class="dash-card stat-card">
+          <div class="dash-card stat-card" id="stat-card-net-total">
             <div class="stat-icon-wrapper stat-icon-gold">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="1" x2="12" y2="23"></line>
@@ -351,13 +370,13 @@
             </div>
             <div class="stat-details">
               <span class="stat-label">Net total</span>
-              <div class="stat-value">₱185,450.00</div>
-              <span class="stat-meta" style="color: #10b981; font-weight: 600;">+14.2% Net Margin</span>
+              <div class="stat-value" id="stat-net-total">₱0.00</div>
+              <span class="stat-meta neutral" id="stat-net-total-meta">0.0% Net Margin • Fresh System</span>
             </div>
           </div>
 
           <!-- 2. Customers Card -->
-          <div class="dash-card stat-card">
+          <div class="dash-card stat-card" id="stat-card-customers">
             <div class="stat-icon-wrapper stat-icon-blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -368,13 +387,13 @@
             </div>
             <div class="stat-details">
               <span class="stat-label">Customers</span>
-              <div class="stat-value">1,284</div>
-              <span class="stat-meta">28 Bagong Kliyente ngayong buwan</span>
+              <div class="stat-value" id="stat-customers-count">0</div>
+              <span class="stat-meta neutral" id="stat-customers-meta">0 Registered Customers</span>
             </div>
           </div>
 
           <!-- 3. Upcoming Event Card -->
-          <div class="dash-card stat-card">
+          <div class="dash-card stat-card" id="stat-card-upcoming-event" style="cursor: pointer;" title="Click to view in Reservations">
             <div class="stat-icon-wrapper stat-icon-green">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -385,8 +404,8 @@
             </div>
             <div class="stat-details">
               <span class="stat-label">Upcoming Event</span>
-              <div class="stat-value" style="font-size: 17px; font-weight: 700;">Sep 18, 2026</div>
-              <span class="stat-meta">Date: 09/18/2026 • 150 Pax</span>
+              <div class="stat-value empty-val" id="stat-upcoming-event-val">No upcoming events</div>
+              <span class="stat-meta neutral" id="stat-upcoming-event-meta">No scheduled events</span>
             </div>
           </div>
 
@@ -401,61 +420,93 @@
         <div class="events-column">
           
           <!-- Event Today Card -->
-          <section class="dash-card event-box-card">
+          <section class="dash-card event-box-card" id="card-event-today">
             <div class="event-card-header-bar">
               <h2 class="card-title">Event today</h2>
-              <span class="event-tag today">Naka-schedule Ngayon</span>
+              <span class="event-tag empty-tag" id="tag-event-today">0 Events</span>
             </div>
             
-            <div class="event-content-row">
-              <!-- Placeholder box styled exactly with the wireframe's crossed square -->
-              <div class="sketch-placeholder-box" title="Event Thumbnail Placeholder"></div>
+            <div class="event-content-row" id="event-today-content-row">
+              <!-- Side Icon Placeholder: Designed to dynamically display the category icon of the reserved package (e.g. birthday, wedding, debut, corporate) -->
+              <div class="event-category-icon-box" id="event-today-category-icon" aria-hidden="true" style="display: none;" title="Package Category Icon">
+                <!-- Dynamically injected SVG category icon -->
+              </div>
               
-              <div class="event-info-list">
+              <!-- Empty state display -->
+              <div class="event-empty-state" id="event-today-empty-state">
+                <div class="empty-state-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                    <line x1="9" y1="15" x2="15" y2="15"></line>
+                  </svg>
+                </div>
+                <div class="empty-state-text">
+                  <h3 class="empty-title">No events today</h3>
+                  <p class="empty-desc">No scheduled catering event for today.</p>
+                </div>
+              </div>
+
+              <!-- Ready layout for dynamic event rendering once an event is added -->
+              <div class="event-info-list" id="event-today-info-list" style="display: none;">
                 <div class="event-info-item">
                   <span class="event-info-label">Name:</span>
-                  <span class="event-info-val">Santos - Reyes Wedding Banquet</span>
+                  <span class="event-info-val" id="today-event-name">--</span>
                 </div>
                 <div class="event-info-item">
                   <span class="event-info-label">Event Date:</span>
-                  <span class="event-info-val">September 04, 2026 • 4:00 PM - 10:00 PM</span>
+                  <span class="event-info-val" id="today-event-date">--</span>
                 </div>
                 <div class="event-info-item">
                   <span class="event-info-label">Location:</span>
-                  <span class="event-info-val">Grand Ballroom, Manila Hotel (250 Pax)</span>
+                  <span class="event-info-val" id="today-event-location">--</span>
                 </div>
               </div>
             </div>
           </section>
 
           <!-- Pending Approval Card -->
-          <section class="dash-card event-box-card">
+          <section class="dash-card event-box-card" id="card-pending-approval">
             <div class="event-card-header-bar">
               <h2 class="card-title">Pending Approval</h2>
-              <span class="event-tag pending">For Verification</span>
+              <span class="event-tag empty-tag" id="tag-pending-approval">0 Pending</span>
             </div>
 
-            <div class="event-content-row">
-              <!-- Placeholder box styled exactly with wireframe crossed square -->
-              <div class="sketch-placeholder-box" title="Pending Event Thumbnail"></div>
+            <div class="event-content-row" id="pending-approval-content-row">
+              <!-- Empty state display -->
+              <div class="event-empty-state" id="pending-empty-state">
+                <div class="empty-state-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <div class="empty-state-text">
+                  <h3 class="empty-title">No pending approvals</h3>
+                  <p class="empty-desc">All reservations have been processed. No pending approvals at the moment.</p>
+                </div>
+              </div>
 
-              <div class="event-info-list">
+              <!-- Ready layout for dynamically rendered pending requests -->
+              <div class="event-info-list" id="pending-info-list" style="display: none;">
                 <div class="event-info-item">
                   <span class="event-info-label">Name:</span>
-                  <span class="event-info-val">De Leon 18th Birthday Debut</span>
+                  <span class="event-info-val" id="pending-event-name">--</span>
                 </div>
                 <div class="event-info-item">
                   <span class="event-info-label">Event Date:</span>
-                  <span class="event-info-val">September 18, 2026 • 6:00 PM</span>
+                  <span class="event-info-val" id="pending-event-date">--</span>
                 </div>
                 <div class="event-info-item">
                   <span class="event-info-label">Location:</span>
-                  <span class="event-info-val">Fernwood Gardens, Quezon City (150 Pax)</span>
+                  <span class="event-info-val" id="pending-event-location">--</span>
                 </div>
               </div>
             </div>
 
-            <div class="event-actions">
+            <div class="event-actions" id="pending-actions" style="display: none;">
               <button type="button" class="btn-action-sm btn-review" id="btn-review-pending">Review Details</button>
               <button type="button" class="btn-action-sm btn-approve" id="btn-approve-pending">Approve</button>
             </div>
@@ -489,7 +540,7 @@
 
           <!-- Calendar Event Selected Preview -->
           <div class="cal-event-preview" id="cal-event-text">
-            <strong>Today (Sep 4)</strong>: Santos - Reyes Wedding Banquet (4:00 PM • Manila Hotel)
+            No scheduled event for this day.
           </div>
         </section>
 
