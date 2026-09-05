@@ -1,9 +1,6 @@
 # Dependencies
 node_modules/
 
-# Vercel
-.vercel/
-
 # Logs
 logs/
 *.log
