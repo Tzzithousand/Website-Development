@@ -41,6 +41,7 @@ Admin/
 ## Getting Started & Running the Project
 
 ### 1. Database Setup (MySQL)
+
 1. Ensure your MySQL server is running on `localhost:3306`.
 2. Import `database/schema.sql` into your MySQL instance:
    ```bash
@@ -52,6 +53,7 @@ Admin/
    - **Default OTP**: `1234`
 
 ### 2. Backend Server (Express.js)
+
 1. Install dependencies (if not already installed):
    ```bash
    npm install
@@ -63,6 +65,7 @@ Admin/
 3. The server starts at `http://localhost:3000` and serves both the API endpoints (`/api/login`, `/api/send-otp`, `/api/health`) and static frontend pages.
 
 ### 3. Frontend Static Pages
+
 - You can access the application through the running server at `http://localhost:3000/pages/login.html` (or `http://localhost:3000`).
 - Alternatively, you can open `index.html` or `pages/logo.html` directly in any modern browser.
 

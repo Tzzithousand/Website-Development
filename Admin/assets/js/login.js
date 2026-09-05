@@ -4,8 +4,8 @@
  * Description: Client-side validation, OTP auto-advance, and backend authentication via MySQL.
  */
 
-// Dynamic API Base: Works when opened via file:/// or http://localhost:3000
-const API_BASE = (window.location.protocol === 'file:' || !window.location.origin.includes(':3000'))
+// Dynamic API Base: Uses relative path when hosted (e.g. Vercel or localhost:3000), falls back to localhost:3000 if opened directly as a file
+const API_BASE = (window.location.protocol === 'file:')
   ? 'http://localhost:3000'
   : '';
 

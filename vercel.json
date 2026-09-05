@@ -1,0 +1,25 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "alias": [
+    "tressmarias.com",
+    "www.tressmarias.com"
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/",
+      "destination": "/Admin/pages/logo.html"
+    },
+    {
+      "source": "/pages/(.*)",
+      "destination": "/Admin/pages/$1"
+    },
+    {
+      "source": "/assets/(.*)",
+      "destination": "/Admin/assets/$1"
+    }
+  ]
+}
